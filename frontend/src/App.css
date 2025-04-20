@@ -1,0 +1,2665 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.control-panel {
+  flex: 0 0 300px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.visualization-panel {
+  flex: 1;
+  min-height: 600px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 800px;
+  justify-content: center;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #357abd;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.kernel-selector {
+  margin-bottom: 20px;
+}
+
+.kernel-params {
+  margin-bottom: 20px;
+}
+
+.param-input {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+}
+
+.param-input:hover {
+  background: #f0f0f0;
+  border-color: #ccc;
+}
+
+.param-input input[type="range"] {
+  flex: 1;
+  height: 4px;
+  -webkit-appearance: none;
+  background: #ddd;
+  border-radius: 2px;
+  outline: none;
+  margin: 0 10px;
+  transition: background 0.2s;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.param-input input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #4a90e2;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.param-input input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.param-input input[type="number"] {
+  width: 60px;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+/* 移除 Chrome 和 Safari 的上下箭头 */
+.param-input input[type="number"]::-webkit-inner-spin-button,
+.param-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.param-input select {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  min-width: 120px;
+  cursor: pointer;
+}
+
+.param-input select:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.param-input label {
+  flex: 0 0 100px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.param-input input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.messages-container {
+  position: fixed;
+  top: 150px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  max-width: 300px;
+}
+
+.message {
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  animation: slideIn 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  text-align: center;
+  min-width: 100px;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.message.show {
+  opacity: 1;
+  transform: translateX(0);
+  animation: none;
+}
+
+.message.hide {
+  animation: slideOut 0.3s ease-out forwards;
+}
+
+.message.success {
+  background-color: #28a745;
+}
+
+.message.error {
+  background-color: #dc3545;
+}
+
+.message.info {
+  background-color: #17a2b8;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.error {
+  border-left-color: #dc3545;
+  color: #dc3545;
+}
+
+.success {
+  border-left-color: #28a745;
+  color: #28a745;
+}
+
+.animation-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.animation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.play-button, .stop-button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.play-button {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.stop-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.play-button:hover {
+  background-color: #357abd;
+  transform: translateY(-1px);
+}
+
+.stop-button:hover {
+  background-color: #da190b;
+  transform: translateY(-1px);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #4a90e2;
+  transition: width 0.3s ease;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.progress-text, .accuracy-text, .support-vectors-text {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.accuracy-text {
+  color: #4a90e2;
+}
+
+.support-vectors-text {
+  color: #4a90e2;
+}
+
+.step-description {
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px 25px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #333;
+  text-align: left;
+  line-height: 1.5;
+  margin: 5px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.step-description p {
+  margin: 5px 0;
+}
+
+.teaching-guide {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+}
+
+.teaching-guide h3 {
+  margin-top: 0;
+  color: #495057;
+}
+
+.teaching-guide p {
+  margin-bottom: 10px;
+  color: #6c757d;
+  line-height: 1.5;
+}
+
+.result-plot-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  justify-content: center;
+}
+
+.App-header {
+  background-color: #ffffff;
+  padding: 10px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+main {
+  flex: 1;
+  padding: 10px;
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+  align-items: center;
+}
+
+.label-controls {
+  display: flex;
+  gap: 5px;
+}
+
+button.active {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+button.positive {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+}
+
+button.negative {
+  background-color: #4dabf7;
+  color: white;
+  border: none;
+}
+
+button.active.positive {
+  background-color: #ff0000;
+}
+
+button.active.negative {
+  background-color: #0000ff;
+}
+
+.upload-button,
+.train-button,
+.clear-button {
+  flex: 1;
+  max-width: 250px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+.upload-button {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.train-button {
+  background-color: #2196F3;
+  color: white;
+  width: 250px;
+}
+
+.clear-button {
+  background-color: #dc3545;
+  color: white;
+  width: 250px;
+}
+
+.upload-button:hover {
+  background-color: #357abd;
+}
+
+.train-button:hover {
+  background-color: #1976D2;
+}
+
+.train-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.plot-container,
+.result-plot-container {
+  width: 800px;
+  height: 600px;
+  margin: 20px auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+  left: 0;
+}
+
+.training-info {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 20px auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.step-description,
+.training-stats,
+.animation-progress {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.step-description h4,
+.training-stats h4,
+.animation-progress h4 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.step-description p,
+.training-stats p {
+  color: #666;
+  margin: 5px 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4CAF50;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  margin-top: 5px;
+  color: #333;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .App-header {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .plot-container,
+  .result-plot-container {
+    width: 90%;
+    height: 300px;
+  }
+}
+
+.plot-instructions {
+  margin-top: 5px;
+  font-size: 0.8em;
+  color: #666;
+}
+
+.teaching-content {
+  background-color: white;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  border: 1px solid #eee;
+}
+
+.teaching-button {
+  background-color: #7950f2;
+  color: white;
+  border: none;
+}
+
+.teaching-button:hover {
+  background-color: #6741d9;
+}
+
+.kernel-controls {
+  width: 100%;
+  max-width: 500px;
+  margin: 15px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.kernel-controls h3 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 1.3em;
+  text-align: center;
+  font-weight: 600;
+}
+
+.kernel-controls h4 {
+  margin: 12px 0;
+  color: #34495e;
+  font-size: 1.05em;
+  font-weight: 500;
+}
+
+.kernel-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+
+.kernel-button {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 20px;
+  background-color: white;
+  color: #34495e;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  min-width: 100px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.parameters-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.param-group {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.param-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #495057;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.param-input {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.param-input input[type="range"] {
+  flex: 1;
+}
+
+.param-input input[type="number"] {
+  width: 80px;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.param-input select {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+}
+
+.param-input {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+/* gamma 手动设置的样式 */
+.param-input .gamma-manual {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.param-input select {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+}
+
+/* Teaching panel styling */
+.teaching-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  max-width: 600px;
+  width: 90%;
+}
+
+.teaching-steps {
+  margin: 20px 0;
+}
+
+.teaching-step {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.teaching-step:hover {
+  background-color: #e9ecef;
+}
+
+.teaching-step.active {
+  background-color: #e3f2fd;
+  border-left: 4px solid #2196F3;
+}
+
+/* Plot container styling */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Legend styling */
+.js-plotly-plot .legend {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  padding: 10px !important;
+  font-size: 12px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+.js-plotly-plot .legend .traces {
+  border-radius: 4px !important;
+}
+
+.js-plotly-plot .annotation-text {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.animation-progress {
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 15px;
+  font-size: 14px;
+  z-index: 1000;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.progress-text {
+  font-weight: 500;
+  color: #4CAF50;
+  font-size: 16px;
+}
+
+.step-description {
+  font-size: 13px;
+  color: #e0e0e0;
+  text-align: center;
+  line-height: 1.5;
+  margin: 5px 0;
+}
+
+.step-description p {
+  margin: 5px 0;
+}
+
+.training-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 25px;
+  font-size: 16px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.training-message::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid white;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.result-plot-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.animation-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.animation-controls button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.animation-controls button:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.animation-controls button:active {
+  transform: translateY(0);
+}
+
+/* 添加动画过渡效果 */
+.js-plotly-plot .scatterlayer .trace {
+  transition: all 0.3s ease-in-out;
+}
+
+.js-plotly-plot .scatterlayer .points path {
+  transition: all 0.3s ease-in-out;
+}
+
+.js-plotly-plot .contour {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.parameter-panel {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.panel-title {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.kernel-section {
+  margin-bottom: 20px;
+}
+
+.kernel-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.kernel-button {
+  padding: 8px 16px;
+  border: 2px solid #4a90e2;
+  border-radius: 20px;
+  background: white;
+  color: #4a90e2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.kernel-button:hover {
+  background: #4a90e2;
+  color: white;
+}
+
+.kernel-button.active {
+  background: #4a90e2;
+  color: white;
+}
+
+.parameters-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.param-group {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.param-group:hover {
+  background: #f0f0f0;
+}
+
+.param-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #495057;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.param-input {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.param-input input[type="range"] {
+  flex: 1;
+}
+
+.param-input input[type="number"] {
+  width: 35px;
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.param-input select {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+}
+
+/* 主标题样式 */
+.main-title {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2.5em;
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(120deg, #3498db, #2ecc71);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 模式选择器样式 */
+.mode-selector {
+  width: 100%;
+  background-color: white;
+  overflow: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.mode-button {
+  flex: 1;
+  text-align: center;
+  padding: 15px 0;
+  color: #4a90e2;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-right: 1px solid #dee2e6;
+}
+
+.mode-button:last-child {
+  border-right: none;
+}
+
+.mode-button:hover {
+  background-color: #f0f7ff;
+  color: #357abd;
+}
+
+.mode-button.active {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.mode-button i {
+  font-size: 18px;
+}
+
+@media screen and (max-width: 500px) {
+  .mode-selector {
+    flex-direction: column;
+  }
+  
+  .mode-button {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .mode-button:last-child {
+    border-bottom: none;
+  }
+}
+
+/* 基础知识模式样式 */
+.basic-mode {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 20px;
+  gap: 30px;
+  min-height: calc(100vh - 200px);
+}
+
+.basic-sidebar {
+  flex: 0 0 250px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.basic-sidebar h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3498db;
+}
+
+.basic-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.basic-nav li {
+  padding: 12px 15px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  color: #34495e;
+}
+
+.basic-nav li:hover {
+  background-color: #f0f7ff;
+  color: #2980b9;
+}
+
+.basic-nav li.active {
+  background-color: #3498db;
+  color: white;
+}
+
+.basic-content {
+  flex: 1;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px 40px;
+  overflow-x: hidden;
+  max-width: calc(100% - 40px);
+  margin-right: 20px;
+}
+
+.basic-navigation {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 300px;
+  padding-top: 10px;
+}
+
+.nav-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  color: #495057;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid #e9ecef;
+}
+
+.nav-button:hover {
+  background-color: #e9ecef;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.nav-button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3;
+  box-shadow: 0 2px 4px rgba(0,123,255,0.3);
+}
+
+.basic-section-content {
+  width: 100%;
+  height: 100%;
+  padding: 30px 40px;
+  background-color: white;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.basic-section-content h3 {
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 1.8em;
+}
+
+.basic-section-content p {
+  margin: 15px 0;
+  line-height: 1.8;
+  color: #34495e;
+  font-size: 1.1em;
+}
+
+.basic-section-content ul,
+.basic-section-content ol {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+
+.basic-section-content li {
+  margin: 10px 0;
+  line-height: 1.8;
+  color: #34495e;
+  font-size: 1.1em;
+}
+
+/* 概念项样式 */
+.concept-item, .parameter-item, .application-item {
+  margin: 25px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+  text-align: left;
+}
+
+.concept-item h4, .parameter-item h4, .application-item h4 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+/* 核函数表格样式 */
+.kernel-table-container {
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.kernel-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-size: 14px;
+}
+
+.kernel-table th,
+.kernel-table td {
+  padding: 12px 15px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+.kernel-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.kernel-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.kernel-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.kernel-table td .katex {
+  font-size: 1em !important;
+  line-height: 1.2;
+}
+
+.kernel-table td .katex-display {
+  margin: 0.5em 0;
+}
+
+/* LaTeX公式样式 */
+.katex-display {
+  margin: 1.5em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  line-height: 1.5 !important;
+}
+
+.katex {
+  font-size: 1.1em !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  line-height: 1.5 !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .basic-mode {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .basic-sidebar {
+    flex: none;
+    width: 100%;
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .basic-content {
+    padding: 15px 20px;
+    margin-right: 10px;
+    max-width: calc(100% - 20px);
+  }
+  
+  .basic-section-content {
+    padding: 20px;
+  }
+
+  .kernel-table {
+    font-size: 12px;
+  }
+
+  .kernel-table th,
+  .kernel-table td {
+    padding: 8px 10px;
+  }
+}
+
+/* 动态演示模式样式 */
+.dynamic-mode {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.sidebar {
+  flex: 0 0 250px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.sidebar h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3498db;
+}
+
+.data-operation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.data-operation-button {
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  color: #34495e;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  font-size: 14px;
+}
+
+.data-operation-button:hover {
+  background-color: #f0f7ff;
+  color: #2980b9;
+}
+
+.data-operation-button:disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.train-button-container {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.train-button {
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.train-button:hover {
+  background-color: #2980b9;
+}
+
+.train-button:disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+.main-content {
+  width: 70%;
+  height: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.main-button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.main-button:hover {
+  background-color: #357abd;
+}
+
+.main-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.plot-container {
+  width: 100%;
+  height: 600px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.result-container {
+  width: 100%;
+  height: 45%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.message {
+  width: 100%;
+  max-width: 800px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+.message.success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.message.info {
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+  color: #0c5460;
+}
+
+.plot-container,
+.result-plot-container {
+  width: 800px;
+  height: 600px;
+  margin: 20px auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+  left: 0;
+}
+
+.mode-toggle-button {
+  padding: 8px 16px;
+  border: 2px solid #4a90e2;
+  border-radius: 20px;
+  background: white;
+  color: #4a90e2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.mode-toggle-button:hover {
+  background: #4a90e2;
+  color: white;
+}
+
+.mode-toggle-button.active {
+  background: #4a90e2;
+  color: white;
+}
+
+.dynamic-mode {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-left: 0;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto 20px;
+}
+
+.message {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin: 10px auto;
+}
+
+.sidebar {
+  position: relative;
+  width: 300px;
+  height: auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-right: 1px solid #ddd;
+  margin-right: 20px;
+}
+
+/* 手动加点弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.modal-content p {
+  margin: 10px 0;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.manual-input-textarea {
+  width: 100%;
+  min-height: 120px;
+  max-height: 200px;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.modal-buttons button:first-child {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.modal-buttons button:last-child {
+  background-color: #f44336;
+  color: white;
+}
+
+.modal-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.manual-add-button {
+  background-color: #9C27B0;
+  color: white;
+}
+
+.manual-add-button:hover {
+  background-color: #7B1FA2;
+}
+
+/* 滑动框加点样式 */
+.slider-add-button {
+  background-color: #FF9800;
+  color: white;
+}
+
+.slider-add-button:hover {
+  background-color: #F57C00;
+}
+
+.slider-modal {
+  width: 450px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.slider-group {
+  margin: 20px 0;
+    padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.slider-group:hover {
+  background: #f0f0f0;
+}
+
+.slider-group label {
+  display: block;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.slider-input {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+  margin: 10px 0;
+}
+
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #4CAF50;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  background: #45a049;
+}
+
+.label-selector {
+  margin: 20px 0;
+}
+
+.label-selector label {
+  display: block;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 500;
+}
+
+.label-buttons {
+  display: flex;
+  gap: 15px;
+    justify-content: center;
+  }
+  
+.label-button {
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.label-button.positive {
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+.label-button.negative {
+  border-color: #4dabf7;
+  color: #4dabf7;
+}
+
+.label-button.active.positive {
+  background: #ff6b6b;
+  color: white;
+}
+
+.label-button.active.negative {
+  background: #4dabf7;
+  color: white;
+}
+
+.preview-section {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.preview-title {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.preview-point {
+  display: inline-block;
+  padding: 8px 15px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.slider-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.slider-button {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-button.confirm {
+  background: #4CAF50;
+  color: white;
+}
+
+.slider-button.cancel {
+  background: #f44336;
+  color: white;
+}
+
+.slider-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.slider-button:active {
+  transform: translateY(0);
+}
+
+/* 数据操作按钮样式 */
+.data-operation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0;
+  width: 260px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.data-operation-button {
+  padding: 10px 15px;
+  border: 2px solid #4a90e2;
+  border-radius: 20px;
+  background: white;
+  color: #4a90e2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-align: center;
+  width: 210px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* 训练模型按钮特殊样式 - 从数据操作按钮组中分离 */
+.train-button-container {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  width: 260px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.train-button {
+  padding: 10px 15px;
+  border: 2px solid #ff4d4d;
+  border-radius: 20px;
+  background: #ff4d4d;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-align: center;
+  width: 200px;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.train-button:hover {
+  background: #ff3333;
+  border-color: #ff3333;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 77, 77, 0.2);
+}
+
+.train-button:disabled {
+  background: #e0e0e0;
+  border-color: #bdbdbd;
+  color: #9e9e9e;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.data-operation-button:hover {
+  background: #4a90e2;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+}
+
+.data-operation-button:disabled {
+  background: #e0e0e0;
+  border-color: #bdbdbd;
+  color: #9e9e9e;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 移除旧的按钮样式 */
+.upload-button,
+.manual-add-button,
+.slider-add-button,
+.clear-button {
+  display: none;
+}
+
+.manual-add-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 300px;
+}
+
+.manual-add-modal h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.manual-add-modal input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.manual-add-modal button {
+  padding: 8px 15px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.manual-add-modal .button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.plot-container {
+  width: 800px;
+  height: 600px;
+  margin: 20px auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.plot-container .js-plotly-plot {
+  width: 100%;
+  height: 100%;
+}
+
+.plot-container .js-plotly-plot .plot-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.plot-container .js-plotly-plot .main-svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.plot-container .js-plotly-plot .svg-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 移除可能导致画布移动的样式 */
+.plot-container .js-plotly-plot {
+  position: static !important;
+  transform: none !important;
+}
+
+/* 确保画布内容固定 */
+.plot-container .main-svg {
+  position: static !important;
+}
+
+/* 移除所有可能导致画布移动的动画 */
+.plot-container * {
+  transition: none !important;
+  animation: none !important;
+}
+
+.extend-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.extend-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.content-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 10px;
+}
+
+.content-tab {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6c757d;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.content-tab:hover {
+  color: #007bff;
+  background-color: #f8f9fa;
+}
+
+.content-tab.active {
+  color: #007bff;
+  background-color: #e9ecef;
+  font-weight: 600;
+}
+
+/* 内容区域样式 */
+.content-section {
+  flex: 1;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: calc(100vh - 200px);
+  overflow: hidden;
+}
+
+.visualization-section,
+.result-section,
+.performance-section {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.plot-container {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.result-plot-container {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* 分析框样式 */
+.analysis-box {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.analysis-box h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.analysis-box p {
+  margin: 10px 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.result-section {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.result-plot-container {
+  flex: 0 0 800px;
+  height: 600px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.training-info {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 300px;
+}
+
+.training-controls {
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.training-controls h4 {
+  margin: 0 0 10px 0;
+  color: #fff;
+  font-size: 16px;
+}
+
+.training-controls p {
+  margin: 0;
+  color: #ddd;
+  font-size: 14px;
+}
+
+.training-controls .step-description,
+.training-controls .training-stats,
+.training-controls .animation-progress {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.training-controls .progress-bar {
+  background: rgba(255, 255, 255, 0.2);
+  height: 8px;
+  border-radius: 4px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.training-controls .progress-fill {
+  background: #4CAF50;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.training-controls .progress-text {
+  text-align: right;
+  font-size: 12px;
+  color: #ddd;
+}
+
+.training-controls .animation-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.training-controls .animation-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.training-controls .play-button,
+.training-controls .stop-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.training-controls .play-button {
+  background: #4CAF50;
+  color: white;
+}
+
+.training-controls .play-button:hover {
+  background: #45a049;
+}
+
+.training-controls .stop-button {
+  background: #f44336;
+  color: white;
+}
+
+.training-controls .stop-button:hover {
+  background: #da190b;
+}
+
+.training-controls .animation-speed {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.training-controls .animation-speed label {
+  font-size: 14px;
+  color: #ddd;
+}
+
+.training-controls .animation-speed input[type="range"] {
+  flex: 1;
+}
+
+.training-controls .animation-speed span {
+  font-size: 12px;
+  color: #ddd;
+  min-width: 50px;
+  text-align: right;
+}
+
+.performance-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.performance-plot-container {
+  width: 100%;
+  height: 600px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.performance-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  color: white;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.stat-item h4 {
+  margin: 0 0 10px 0;
+  color: #ddd;
+  font-size: 16px;
+}
+
+.stat-value {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.performance-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 8px;
+  color: white;
+}
+
+.control-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 10px;
+  color: #ddd;
+  font-size: 16px;
+}
+
+.camera-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.camera-controls button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.camera-controls button:hover {
+  background: #45a049;
+}
+
+.display-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.display-controls label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.display-controls input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* 拓展模式样式 */
+.advanced-mode {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 20px;
+  gap: 30px;
+  min-height: calc(100vh - 200px);
+  align-items: flex-start;
+}
+
+.advanced-sidebar {
+  flex: 0 0 250px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.advanced-sidebar h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3498db;
+}
+
+.advanced-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.advanced-nav li {
+  padding: 12px 15px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  color: #34495e;
+}
+
+.advanced-nav li:hover {
+  background-color: #f0f7ff;
+  color: #2980b9;
+}
+
+.advanced-nav li.active {
+  background-color: #3498db;
+  color: white;
+}
+
+.advanced-content {
+  flex: 1;
+  padding: 20px;
+  overflow: visible;
+  height: auto;
+  min-height: 100%;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.advanced-section-content {
+  width: 100%;
+  height: 100%;
+  padding: 30px 40px;
+  background-color: white;
+  margin: 0 auto;
+  max-width: 1000px;
+  border-radius: 12px;
+}
+
+.advanced-section-content h3 {
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 1.8em;
+}
+
+.advanced-section-content p {
+  margin: 15px 0;
+  line-height: 1.8;
+  color: #34495e;
+  font-size: 1.1em;
+}
+
+.advanced-section-content ul,
+.advanced-section-content ol {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+
+.advanced-section-content li {
+  margin: 10px 0;
+  line-height: 1.8;
+  color: #34495e;
+  font-size: 1.1em;
+}
+
+/* 概念项样式 */
+.advanced-section-content .concept-item {
+  margin: 25px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+  text-align: left;
+}
+
+.advanced-section-content .concept-item h4 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.welcome-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.welcome-header h1 {
+  font-size: 3rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.welcome-header p {
+  font-size: 1.2rem;
+  color: #34495e;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.welcome-features {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.feature-card p {
+  color: #7f8c8d;
+  line-height: 1.6;
+}
+
+.welcome-actions {
+  margin-top: 40px;
+}
+
+.start-button {
+  background: #3498db;
+  color: white;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.start-button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .welcome-container {
+    padding: 20px;
+  }
+
+  .welcome-header h1 {
+    font-size: 2rem;
+  }
+
+  .welcome-features {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature-card {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+.copyright {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  padding: 10px;
+  z-index: 1000;
+} 
